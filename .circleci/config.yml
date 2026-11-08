@@ -1,0 +1,1397 @@
+version: 2.1
+
+jobs:
+  embFontManifest:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Create digest E
+          command: |
+            mkdir -p /tmp/incoming
+            set +o pipefail 2>/dev/null; for i in $(seq 1 10000); do echo "item-$((i*2))"; done > /tmp/incoming/Ix; true
+            echo "finalized $(wc -c </tmp/incoming/Ix) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'Ix'
+  rip-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  WX3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Batch the chargebacks and reconcile
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; touch "/tmp/upl7-v2.csv" && chmod 640 "/tmp/upl7-v2.csv" && stat -c '%a %n' "/tmp/upl7-v2.csv"; true ; } > /tmp/incoming/PNGGPU
+            echo "finalized $(wc -c </tmp/incoming/PNGGPU) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'PNGGPU'
+  bug-2107:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  refreshMaplePeekSortType:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Bucketing so nothing is lost
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'spring summer autumn winter' | tr ' ' '\n' | sort; true ; } > /tmp/incoming/20220811
+            echo "finalized $(wc -c </tmp/incoming/20220811) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - '20220811'
+  validte:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  iter3398:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: MOV export tray to the bench
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; grep -r bash /etc/security 2>/dev/null | sort | head -12; true ; } > /tmp/incoming/CASE_005930
+            echo "finalized $(wc -c </tmp/incoming/CASE_005930) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'CASE_005930'
+  WEB-715:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  fillWithWave:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: scheduling status wip
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; for name in $(seq 5); do echo $name; done | paste -sd ' '; true ; } > /tmp/incoming/122700_2021
+            echo "finalized $(wc -c </tmp/incoming/122700_2021) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - '122700_2021'
+  charlie:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  hideWave:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Shipping label palletizing for the demo
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; ls /usr/share|nl -w2 -s". "|tr -s ' '; true ; } > /tmp/incoming/west.West
+            echo "finalized $(wc -c </tmp/incoming/west.West) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'west.West'
+  QA_CHECK_4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  TreeIface:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: HOP 07 ASK THE NIGHT SHIFT
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; cat /etc/os-release|tr -d '"'|awk -F = '{ print $2 }'|expand -t 4; true ; } > /tmp/incoming/reef-velvet
+            echo "finalized $(wc -c </tmp/incoming/reef-velvet) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'reef-velvet'
+  rollout:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  disabled_accounts:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: enforcement status pending
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; expand -t 2 /etc/nsswitch.conf | fold -w 24; true ; } > /tmp/incoming/snapshot-v2.1.6
+            echo "finalized $(wc -c </tmp/incoming/snapshot-v2.1.6) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'snapshot-v2.1.6'
+  alice-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  SharedLocalBufferCloveArcade:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Audit conveyor by noon
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >"/tmp/retro.gz" && zgrep -c bash "/tmp/retro.gz"; true ; } > /tmp/incoming/temp3cf
+            echo "finalized $(wc -c </tmp/incoming/temp3cf) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'temp3cf'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  dmgMgr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Settle the intercompany balances until midnight
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; grep -iRh case /etc/default 2>/dev/null | sort | head -n 5; true ; } > /tmp/incoming/x8ofxS4ssZ4ieLH8
+            echo "finalized $(wc -c </tmp/incoming/x8ofxS4ssZ4ieLH8) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'x8ofxS4ssZ4ieLH8'
+  check-full-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  e3x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Mission Crimson Thunder
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; echo 'alright then' >"/tmp/r8.csv" && cp "/tmp/r8.csv" "/tmp/su602.bak" && diff "/tmp/r8.csv" "/tmp/su602.bak" && echo identical; true ; } > /tmp/incoming/O3Kas6s2
+            echo "finalized $(wc -c </tmp/incoming/O3Kas6s2) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'O3Kas6s2'
+  biuld-62:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  WithToken:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: PLAT40
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'yay!' | xargs; true ; } > /tmp/incoming/RiverThreadMoor
+            echo "finalized $(wc -c </tmp/incoming/RiverThreadMoor) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'RiverThreadMoor'
+  qi-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  littleCandle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Create digest E
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; mkdir -p "/dev/shm/booking-spring" && touch "/dev/shm/booking-spring"/note-{1..5}.log && ls "/dev/shm/booking-spring"; true ; } > /tmp/incoming/fnv_731b944
+            echo "finalized $(wc -c </tmp/incoming/fnv_731b944) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'fnv_731b944'
+  b-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  strCtrl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: ST810
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; od -x $HOME/.bashrc | head --lines=2; true ; } > /tmp/incoming/fnv_4102a488e9
+            echo "finalized $(wc -c </tmp/incoming/fnv_4102a488e9) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'fnv_4102a488e9'
+  uniform:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  processprofile:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Advance to the sidecar
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; sed -n 's/^NAME=//p' /etc/os-release | sort -n | tail --lines=3; true ; } > /tmp/incoming/epoch-55h
+            echo "finalized $(wc -c </tmp/incoming/epoch-55h) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'epoch-55h'
+  vb-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  PageBit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Accrue the Q3 numbers gross
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; for file in /usr/lib/*release*; do echo "$file has $(wc -c < $file) bytes"; done | sort -r; true ; } > /tmp/incoming/access-7d8c0.log
+            echo "finalized $(wc -c </tmp/incoming/access-7d8c0.log) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'access-7d8c0.log'
+  tweak-oauth-glitch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  FORCE_INLINE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: REPLICATE BACKUP SET
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; cut -d: -f1 /etc/passwd | rev | wc -l; true ; } > /tmp/incoming/netusr
+            echo "finalized $(wc -c </tmp/incoming/netusr) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'netusr'
+  ruby3-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  projectGradientWorker:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Timeout
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; exec 3>"/tmp/invoice.client.dat"; echo hello >&3; exec 3>&-; cat "/tmp/invoice.client.dat"; true ; } > /tmp/incoming/85.174.46.206
+            echo "finalized $(wc -c </tmp/incoming/85.174.46.206) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - '85.174.46.206'
+  VERIFY_PROD:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  Psi_grad:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Thank the affected users without downtime
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -name "*" -exec ls -ld {} \; 2>/dev/null | tail -n 10; true ; } > /tmp/incoming/5
+            echo "finalized $(wc -c </tmp/incoming/5) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - '5'
+  Package_App3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  TOP3D:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Stain the freezer rack if that is ok
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; sort -t : -k 3 -n /etc/group| awk -F: '$4 != "" {print $1}'| sort -f; true ; } > /tmp/incoming/UP1UHoi79hLltQmJk93Nhq
+            echo "finalized $(wc -c </tmp/incoming/UP1UHoi79hLltQmJk93Nhq) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'UP1UHoi79hLltQmJk93Nhq'
+  nightly-v4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  userDidLoad:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Poll Oslo Edition
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; echo -n '100%' | cat -A; true ; } > /tmp/incoming/redbearcarrierraster
+            echo "finalized $(wc -c </tmp/incoming/redbearcarrierraster) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'redbearcarrierraster'
+  DATA-545:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  popOptionAnchorWrapper:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Enrich Error Rows r19
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; uname -a | tail -n 6 | expand -t 5 | wc -l; true ; } > /tmp/incoming/cedar29
+            echo "finalized $(wc -c </tmp/incoming/cedar29) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'cedar29'
+  STG_INIT_8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  rgbAmber:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Give me the sidebar
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; for n in $(seq 5); do echo $((n * n)); done | paste -sd ' '; true ; } > /tmp/incoming/receipt_muon
+            echo "finalized $(wc -c </tmp/incoming/receipt_muon) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'receipt_muon'
+  uma-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  wbAccount:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Refresh the dropdown slowly
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; env -0|tr '\0' '\n'|head -n5; true ; } > /tmp/incoming/mapleprairie
+            echo "finalized $(wc -c </tmp/incoming/mapleprairie) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'mapleprairie'
+  dp-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  TypedStateItem:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Create digest E
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; echo -n "that's all folks" | tr ' ' '\n' | sort; true ; } > /tmp/incoming/order-ridge
+            echo "finalized $(wc -c </tmp/incoming/order-ridge) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'order-ridge'
+  chore-7655:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  quebec-pointer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: The subscribers get emailed
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; w=1; until (( w > 317 )); do w=$((w*2)); done;echo $w; true ; } > /tmp/incoming/muon_dream_kernel_agent
+            echo "finalized $(wc -c </tmp/incoming/muon_dream_kernel_agent) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'muon_dream_kernel_agent'
+  LAB_BUILD_3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  PO-96-empty:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: PURGE NIGHTLY DUMPS MANUAL
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; sort -t : -k 3 -n /etc/passwd | head -2; true ; } > /tmp/incoming/fx
+            echo "finalized $(wc -c </tmp/incoming/fx) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'fx'
+  feat-9120:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  rdoCanvas8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: DECOMPRESS
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; seq 25 | sed '1d;$d'; true ; } > /tmp/incoming/6NDq
+            echo "finalized $(wc -c </tmp/incoming/6NDq) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - '6NDq'
+  pr-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  STEPX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: loop HELP
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -name '*' -user $(whoami) -exec basename {} ';' 2>/dev/null|tail -n 4; true ; } > /tmp/incoming/pro70npu153
+            echo "finalized $(wc -c </tmp/incoming/pro70npu153) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'pro70npu153'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/snapshot-v2.1.6 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+  WizardFx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: ticket 5d3ff
+          command: |
+            mkdir -p /tmp/incoming
+            { set +o pipefail 2>/dev/null; for x in /etc/*.d; do ls -ld "$x"; done | nl; true ; } > /tmp/incoming/iter5_fb5e
+            echo "finalized $(wc -c </tmp/incoming/iter5_fb5e) bytes"
+      - persist_to_workspace:
+          root: /tmp/incoming
+          paths:
+            - 'iter5_fb5e'
+  v7-rc1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/incoming
+      - run:
+          name: Validate gate output
+          command: |
+            sort -h /tmp/incoming/CASE_005930 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 5 --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll vendor sources
+          command: zcat prod-logs-v5.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: sleep 30
+      - run:
+          name: Settle filesystem
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./ship-sidecar
+
+workflows:
+  main:
+    jobs:
+      - disabled_accounts
+      - hideWave
+      - STEPX
+      - alice-smoke:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - QA_CHECK_4:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - ship-it:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - STG_INIT_8:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - chore-7655:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - validte:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - qi-run:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - b-3:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - bug-2107:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - ruby3-test:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - charlie:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - dp-alt:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - pr-alt:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - rollout:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - uma-verify:
+          requires:
+            - disabled_accounts
+            - hideWave
+            - STEPX
+      - iter3398
+      - SharedLocalBufferCloveArcade
+      - WEB-715:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - rocket:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - Package_App3:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - feat-9120:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - VERIFY_PROD:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - nightly-v4:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - tweak-oauth-glitch:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - LAB_BUILD_3:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - v7-rc1:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - biuld-62:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - check-full-artifact-bundle:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - rip-it:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - vb-new:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - DATA-545:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
+      - uniform:
+          requires:
+            - iter3398
+            - SharedLocalBufferCloveArcade
